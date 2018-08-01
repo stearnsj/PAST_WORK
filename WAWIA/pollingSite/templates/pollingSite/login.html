@@ -1,0 +1,24 @@
+﻿{% extends 'pollingSite/base.html' %}
+{% load static %}
+{% block body %}
+<body>
+    <div class="container" style="text-align:center">
+        <div class="row"><img src="{% static 'pollingSite/images/Logo.png' %}" style="width:100%" alt="Logo">
+</div>
+        <form action="" method="post" style="border-color:white">{% csrf_token %}
+            <label><b>Username </b></label>
+            {{form.username}}
+            <label><b>Password</b></label>
+            {{form.password}}
+            <button type="submit">Login</button>
+            <label>
+                <input type="checkbox" checked="checked"> Remember me
+            </label>
+        </form>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1; text-align:center">
+        <button type="button" class="cancelbtn">Cancel</button>
+    </div>
+</body>
+{% endblock body %}

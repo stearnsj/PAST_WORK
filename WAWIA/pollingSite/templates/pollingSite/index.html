@@ -1,0 +1,60 @@
+{% extends 'pollingSite/base.html' %}
+
+{% block content %}
+
+<div class="row">
+    <label style="text-align:center"><font size="6"><b>Whose Answer Was It Anyways?</b></font></label>
+         {% include 'pollingSite/homebar.html' %}
+             <div class="row"><b>To Register Text: Register FirstName LastName (class key) to 509-303-4655</b></div>
+    <div class="row"><b>To Update Info Text: Update FirstName LastName</b></div>
+    <div class="row"><b>To Answer a Poll: Simply text the letter of the answer</b></div>
+        {% for class in classroom %}
+        {% ifchanged class.quarter or class.year %}
+        <div class="row">
+            <br />
+            <font size="6" style="">
+                <u>{{ class.get_quarter_display }} {{ class.year }}</u>
+            </font>
+            <br />
+        </div>
+        <div class="row">
+            <div class="three columns"><u><b>Active Class</b></u></div>
+            <div class="three columns">
+                <font size="3"><u>Class Name</u></font>
+            </div>
+            <div class="three columns">
+                <font size="3">
+                    <u>Class Key </u>
+                </font>
+            </div>
+        </div>
+        {% endifchanged %}
+        {% if forloop.counter0|divisibleby:2 %}
+        <div class="row" style="background-color:#E5E5E5">
+            {% else %}
+            <div class="row">
+                {% endif %}
+                {% if class.isActive %}
+                {% if request.user.activeClass == class %}
+                <div class="three columns"><a href="{% url 'pollingSite:setActive' class.id %}"><input type="radio" name="select" checked style="margin-left:50%"></input></a></div>
+                {% else %}
+                <div class="three columns"><a href="{% url 'pollingSite:setActive' class.id %}"><input type="radio" name="select" style="margin-left:50%"></input></a></div>
+                {% endif %}
+                {% else %}
+                <div class="three columns">&nbsp;</div>
+                {% endif %}
+                <div class="three columns">
+                    <font size="3">{{ class.className }}</font>
+                </div>
+                <div class="three columns">
+                    <font size="3">
+                        <font style="color:#990000">{{class.classKey}}</font>
+                    </font>
+                </div>
+                <div class="three columns">
+                    <a href="{% url 'pollingSite:edit' class.id %}">Edit</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endblock content%}
